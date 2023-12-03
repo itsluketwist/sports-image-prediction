@@ -1,7 +1,7 @@
-# **python-template**
+# **sports-image-prediction**
 
 
-![check code workflow](https://github.com/itsluketwist/python-template/actions/workflows/check.yaml/badge.svg)
+![check code workflow](https://github.com/itsluketwist/sports-image-prediction/actions/workflows/check.yaml/badge.svg)
 
 
 <div>
@@ -13,7 +13,26 @@
     <a href="https://www.python.org/">
         <img alt="Python 3" src="https://img.shields.io/badge/Python_3-blue?style=for-the-badge&logo=python&logoColor=white" />
     </a>
+    <a href="https://pytorch.org/">
+        <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-red?style=for-the-badge&logo=pytorch&logoColor=white" />
+    </a>
 </div>
+
+
+Building a simple preddiction repo similar to: https://github.com/srbhr/Fruits_360
+
+Following tutorial in: https://pyimagesearch.com/2021/07/19/pytorch-training-your-first-convolutional-neural-network-cnn/
+
+Use sports image data in: https://www.kaggle.com/datasets/gpiosenka/sports-classification/code
+
+Also pytorch tutorial: https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html
+
+
+
+Things:
+- Have a ipy notebook interface for simple predictions
+- Have a command line way to call the prediction by inputting an image path
+
 
 
 ## *usage*
@@ -27,7 +46,7 @@ similarly determine whether the `pyproject.toml` or `requirements.txt` files are
 Install directly from GitHub, using pip:
 
 ```shell
-pip install git+https://github.com/itsluketwist/python-template
+pip install git+https://github.com/itsluketwist/sports-image-prediction
 ```
 
 ## *development*
@@ -35,7 +54,7 @@ pip install git+https://github.com/itsluketwist/python-template
 Clone the repository code:
 
 ```shell
-git clone https://github.com/itsluketwist/python-template.git
+git clone https://github.com/itsluketwist/sports-image-prediction.git
 ```
 
 _(for projects...)_ Once cloned, install the requirements locally in a virtual environment:

@@ -6,9 +6,9 @@ build-backend = "setuptools.build_meta"
 packages = ["src"]
 
 [project]
-name = "python_template"
+name = "sports_image_prediction"
 version = "0.0.0"
-description = "python-template..."
+description = "sports-image-prediction..."
 readme = "README.md"
 authors = [{ name = "Lukas Twist", email = "itsluketwist@gmail.com" }]
 license = { file = "LICENSE" }
@@ -17,7 +17,7 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-keywords = ["python-template"]
+keywords = ["sports", "image-prediction", "neural-networks", "pytorch"]
 dependencies = []
 requires-python = ">=3.10"
 
@@ -28,4 +28,4 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/itsluketwist/python-template"
+Homepage = "https://github.com/itsluketwist/sports-image-prediction"
