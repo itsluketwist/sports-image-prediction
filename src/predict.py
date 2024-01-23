@@ -1,70 +1,93 @@
-# set the numpy seed for better reproducibility
-import numpy as np
-
-np.random.seed(42)
-
 import logging
 
-from utils import get_device
-
-# import the necessary packages
-from torch.utils.data import DataLoader
-from torch.utils.data import Subset
-from torchvision.transforms import ToTensor
-from torchvision.datasets import KMNIST
-import imutils
+import matplotlib
+import matplotlib.pyplot as plt
 import torch
-import cv2
+
+from constants import KMNIST_LABELS, SPORTS_LABELS
+from load_data import MEAN, STD, get_kmnist_sample, get_sports_sample, load_sports_image
+from utils import ModelOptions, get_device
 
 
 logger = logging.getLogger(__name__)
 
 
-def run_predict(model_path: str, number_samples: int = 10):
-	device = get_device()
+def run_predict(
+    input_path: str,
+    sample_path: str | None = None,
+    model_type: ModelOptions = ModelOptions.SPORTS,
+    number_samples: int = 4,
+):
+    """
+    Make predictions using the chosen model, image will be displayed with the result.
 
-	# load the KMNIST dataset and randomly grab 10 data points
-	print("[INFO] loading the KMNIST test dataset...")
-	testData = KMNIST(root="data", train=False, download=True, transform=ToTensor(),)
-	idxs = np.random.choice(range(0, len(testData)), size=(number_samples,))
-	testData = Subset(testData, idxs)
-	# initialize the test data loader
-	testDataLoader = DataLoader(testData, batch_size=1)
+    Parameters
+    ----------
+    input_path: str
+        Location of the model (.pth file) to use for prediction.
+    sample_path: Optional[str] = None
+        Location of a sports image to make predictions on.
+    model: ModelOptions = ModelOptions.SPORTS
+        Which model type is being evaluated.
+    number_samples: int = 4
+        If a path is not provided, how many samples from the dataset to make predictions on.
+    """
+    device = get_device()  # configure the device to use
 
-	# load the model and set it to evaluation mode
-	model = torch.load(model_path).to(device)
-	model.eval()
+    if model_type == ModelOptions.SPORTS:
+        # core model
+        classes = SPORTS_LABELS
 
-	# switch off autograd
-	with torch.no_grad():
-		# loop over the test set
-		for (image, label) in testDataLoader:
-			# grab the original image and ground truth label
-			origImage = image.numpy().squeeze(axis=(0, 1))
-			gtLabel = testData.dataset.classes[label.numpy()[0]]
-			# send the input to the device and              make predictions on it
-			image = image.to(device)
-			pred = model(image)
-			# find the class label index with the largest corresponding
-			# probability
-			idx = pred.argmax(axis=1).cpu().numpy()[0]
-			predLabel = testData.dataset.classes[idx]
+        if sample_path:
+            logger.debug("Loading sports image sample from path: %s", sample_path)
+            _image, _label = load_sports_image(path=sample_path)
+            _image = _image.to(_image)
+            loader = [(_image, _label)]
+        else:
+            loader = get_sports_sample(count=number_samples)
 
-			# convert the image from grayscale to RGB (so we can draw on
-			# it) and resize it (so we can more easily see it on our
-			# screen)
-			origImage = np.dstack([origImage] * 3)
-			origImage = imutils.resize(origImage, width=128)
-			# draw the predicted class label on it
-			color = (0, 255, 0) if gtLabel == predLabel else (0, 0, 255)
-			cv2.putText(
-				origImage, gtLabel, (2, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.95, color, 2
-			)
-			# display the result in terminal and show the input image
-			print(
-				"[INFO] ground truth label: {}, predicted label: {}".format(
-					gtLabel, predLabel
-				)
-			)
-			cv2.imshow("image", origImage)
-			cv2.waitKey(0)
+    elif model_type == ModelOptions.KMNIST:
+        # additional basic model
+        classes = KMNIST_LABELS
+        loader = get_kmnist_sample(count=number_samples)
+
+        if sample_path:
+            logger.warn(
+                "Unsupported: KMNIST model cannot make predictions on a single image."
+            )
+
+    logger.debug("Loaded sample data for predictions.")
+
+    # load the model and set it to evaluation mode
+    loaded_model = torch.load(input_path).to(device)
+    loaded_model.eval()
+    logger.info("Loaded model and sample images - ready to predict!")
+
+    matplotlib.use("TkAgg")
+
+    # switch off autograd
+    with torch.no_grad():
+        # loop over samples
+        for image, act_label in loader:
+            # send the input to the device and make predictions on it
+            image = image.to(device)
+            pred_tensor = loaded_model(image)
+            pred_label = classes[pred_tensor.argmax(axis=1).cpu().numpy()[0]]
+
+            if not isinstance(act_label, str):
+                act_label = classes[act_label]
+
+            plt.figure(figsize=(5, 5))
+            plt.xticks([])
+            plt.yticks([])
+            result = "✔️" if act_label == pred_label else "✖️"
+            plt.title(f"Actual: {act_label} | Prediction: {pred_label} {result}")
+
+            # prepare image
+            image_tensor = image[0]
+            if model_type == ModelOptions.SPORTS:
+                # reverse earlier normalization for sports images
+                image_tensor = image_tensor * STD[:, None, None] + MEAN[:, None, None]
+
+            plt.imshow(image_tensor.permute(1, 2, 0))
+            plt.show()

@@ -1,7 +1,9 @@
 # **sports-image-prediction**
 
-
 ![check code workflow](https://github.com/itsluketwist/sports-image-prediction/actions/workflows/check.yaml/badge.svg)
+
+A simple python project that takes an image of a sport, and uses a CNN to make a prediction about 
+which sport it is!
 
 
 <div>
@@ -19,37 +21,26 @@
 </div>
 
 
-Building a simple preddiction repo similar to: https://github.com/srbhr/Fruits_360
-
-Following tutorial in: https://pyimagesearch.com/2021/07/19/pytorch-training-your-first-convolutional-neural-network-cnn/
-
-Use sports image data in: https://www.kaggle.com/datasets/gpiosenka/sports-classification/code
-
-Also pytorch tutorial: https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html
-
-
-
-Things:
-- Have a ipy notebook interface for simple predictions
-- Have a command line way to call the prediction by inputting an image path
-
-
-
 ## *usage*
 
-Once cloned, find and replace all instances of `python-template` with the new repository name.
-Remove below `README.md` sections where appropriate (whether this is a project or library), 
-similarly determine whether the `pyproject.toml` or `requirements.txt` files are necessary.
+Follow `predict.ipynb` for easy access to the prediction code.
 
-## *installation*
+You can also run predictions (or re-train / re-evaluate the model) via the `src/run.py` interface.
 
-Install directly from GitHub, using pip:
+Predictions via the command line, using `python`:
 
 ```shell
-pip install git+https://github.com/itsluketwist/sports-image-prediction
+python src/run.py predict -i output/sports_mod_tuned.pth -s sample/basketball.pn
 ```
 
-## *development*
+To retrain the model, check and update the hyperparameters in `src/train.py`, then run:
+
+```shell
+python src/run.py -m kmnist train
+```
+
+
+## *set-up and development*
 
 Clone the repository code:
 
@@ -57,7 +48,7 @@ Clone the repository code:
 git clone https://github.com/itsluketwist/sports-image-prediction.git
 ```
 
-_(for projects...)_ Once cloned, install the requirements locally in a virtual environment:
+Once cloned, install the requirements locally in a virtual environment:
 
 ```shell
 python -m venv venv
@@ -65,16 +56,6 @@ python -m venv venv
 . venv/bin/activate
 
 pip install -r requirements-dev.txt
-```
-
-_(for libraries...)_ Once cloned, install the package locally in a virtual environment:
-
-```shell
-python -m venv venv
-
-. venv/bin/activate
-
-pip install -e ".[dev]"
 ```
 
 Install and use pre-commit to ensure code is in a good state:
@@ -87,20 +68,7 @@ pre-commit autoupdate
 pre-commit run --all-files
 ```
 
-## *todos*
-
-- Add docs template / support.
-
-
-## *testing*
-
-Run the test suite using:
-
-```shell
-pytest .
-```
-
 
 ## *inspiration*
 
-This is currently how I like to make python projects/libraries, it ain't that deep.
+Wanted to learn more about neural networks, and get some experience building wqith PyTorch.
