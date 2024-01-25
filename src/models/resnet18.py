@@ -15,6 +15,20 @@ from torchvision.models import ResNet18_Weights, resnet18
 
 
 def get_resnet_18_model(num_classes: int, use_pretrained: bool = True) -> Module:
+    """
+    Initialise a ResNet18 model to use for training, either a completely fresh model,
+    or one with pre-trained convolutional layers.
+
+    Parameters
+    ----------
+    num_classes: int
+    use_pretrained: bool = True
+
+    Returns
+    -------
+    Module
+        The initialised model to train.
+    """
     if use_pretrained is True:
         model = resnet18(weights=ResNet18_Weights.DEFAULT)
         model.fc = Linear(512, num_classes)
@@ -22,10 +36,6 @@ def get_resnet_18_model(num_classes: int, use_pretrained: bool = True) -> Module
         model = ResNet18(num_classes=num_classes)
 
     return model
-
-
-# notes: https://blog.paperspace.com/writing-resnet-from-scratch-in-pytorch/
-# also: https://debuggercafe.com/implementing-resnet18-in-pytorch-from-scratch/
 
 
 class ResidualBlock(Module):

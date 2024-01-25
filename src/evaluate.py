@@ -2,10 +2,10 @@ import logging
 
 import torch
 
-from constants import KMNIST_LABELS, SPORTS_LABELS
-from load_data import get_kmnist_eval_data, get_sports_eval_data
-from loop import evaluation_loop
-from utils import ModelOptions, get_device
+from src.constants import KMNIST_LABELS, SPORTS_LABELS
+from src.load_data import get_kmnist_eval_data, get_sports_eval_data
+from src.loop import evaluation_loop
+from src.utils import ModelOptions, get_device
 
 
 logger = logging.getLogger(__name__)

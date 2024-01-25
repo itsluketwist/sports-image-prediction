@@ -18,7 +18,13 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 keywords = ["sports", "image-prediction", "neural-networks", "pytorch"]
-dependencies = []
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "scikit-learn",
+    "torch",
+    "torchvision",
+]
 requires-python = ">=3.10"
 
 [project.optional-dependencies]
@@ -29,3 +35,6 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/itsluketwist/sports-image-prediction"
+
+[project.scripts]
+run = "src.command:main"

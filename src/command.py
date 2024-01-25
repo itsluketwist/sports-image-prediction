@@ -2,10 +2,10 @@ import logging
 import os
 from argparse import ArgumentParser
 
-from evaluate import run_evaluate
-from predict import run_predict
-from train import run_train
-from utils import ModelOptions
+from src.evaluate import run_evaluate
+from src.predict import run_predict
+from src.train import run_train
+from src.utils import ModelOptions
 
 
 SPORTS_PREDICTION_LOG_LEVEL = "SPORTS_PREDICTION_LOG_LEVEL"
@@ -96,7 +96,7 @@ predict_parser.add_argument(
 )
 
 
-if __name__ == "__main__":
+def main():
     args = parser.parse_args()
     kwargs = vars(args)
     command = kwargs.pop("command")
@@ -112,3 +112,7 @@ if __name__ == "__main__":
         run_predict(**kwargs)
     else:
         logger.error("Incorrect command called: %s", command)
+
+
+if __name__ == "__main__":
+    main()

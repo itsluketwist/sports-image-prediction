@@ -4,18 +4,18 @@ import torch
 from torch import nn
 from torch.optim import Adam
 
-from constants import KMNIST_LABELS, SPORTS_LABELS
-from load_data import (
+from src.constants import KMNIST_LABELS, SPORTS_LABELS
+from src.load_data import (
     get_kmnist_eval_data,
     get_kmnist_train_data,
     get_sports_eval_data,
     get_sports_train_data,
 )
-from loop import evaluation_loop, testing_loop, training_loop
-from models.lenet5 import LeNet5
-from models.resnet18 import get_resnet_18_model
-from plot import plot_history
-from utils import History, ModelOptions, filename_datetime, get_device
+from src.loop import evaluation_loop, testing_loop, training_loop
+from src.models.lenet5 import LeNet5
+from src.models.resnet18 import get_resnet_18_model
+from src.plot import plot_history
+from src.utils import History, ModelOptions, filename_datetime, get_device
 
 
 logger = logging.getLogger(__name__)
@@ -114,9 +114,9 @@ def run_train(
             loss_func=loss_func,
         )
         hist.update(
-            train_loss=train_loss.cpu().detach().numpy(),
+            train_loss=train_loss,
             train_accuracy=train_accuracy,
-            test_loss=test_loss.cpu().detach().numpy(),
+            test_loss=test_loss,
             test_accuracy=test_accuracy,
         )
 

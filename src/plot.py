@@ -1,7 +1,7 @@
 import matplotlib
 import matplotlib.pyplot as plt
 
-from utils import History, filename_datetime
+from src.utils import History, filename_datetime
 
 
 def plot_history(

@@ -1,9 +1,11 @@
 # **sports-image-prediction**
 
-![check code workflow](https://github.com/itsluketwist/sports-image-prediction/actions/workflows/check.yaml/badge.svg)
 
 A simple python project that takes an image of a sport, and uses a CNN to make a prediction about 
 which sport it is!
+
+
+![check code workflow](https://github.com/itsluketwist/sports-image-prediction/actions/workflows/check.yaml/badge.svg)
 
 
 <div>
@@ -23,20 +25,24 @@ which sport it is!
 
 ## *usage*
 
-Follow `predict.ipynb` for easy access to the prediction code.
+Follow `predict_sport.ipynb` for easy access to the prediction code.
 
-You can also run predictions (or re-train / re-evaluate the model) via the `src/run.py` interface.
-
-Predictions via the command line, using `python`:
+Otherwise install with:
 
 ```shell
-python src/run.py predict -i output/sports_mod_tuned.pth -s sample/basketball.pn
+pip install -e .
+```
+
+And run predictions (or re-train / re-evaluate the model) via the command line using `run`.
+
+```shell
+run predict -i output/sports_mod_tuned.pth -s sample/basketball.png
 ```
 
 To retrain the model, check and update the hyperparameters in `src/train.py`, then run:
 
 ```shell
-python src/run.py -m kmnist train
+run train
 ```
 
 
@@ -55,7 +61,7 @@ python -m venv venv
 
 . venv/bin/activate
 
-pip install -r requirements-dev.txt
+pip install -e ".[dev]"
 ```
 
 Install and use pre-commit to ensure code is in a good state:
