@@ -7,8 +7,7 @@ packages = ["src"]
 
 [project]
 name = "sports_image_prediction"
-version = "0.0.0"
-description = "sports-image-prediction..."
+version = "0.0.1"
 readme = "README.md"
 authors = [{ name = "Lukas Twist", email = "itsluketwist@gmail.com" }]
 license = { file = "LICENSE" }
@@ -25,7 +24,7 @@ dependencies = [
     "torch",
     "torchvision",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 
 [project.optional-dependencies]
 dev = [
